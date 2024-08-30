@@ -4,7 +4,7 @@ import { React, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button, TextField, Typography, Container, Box } from '@mui/material';
-import styles from '@/styles/login.module.css';
+import styles from '@/styles/auth.module.css';
 
 export default function Register() {
 	const [email, setEmail] = useState('');
