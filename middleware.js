@@ -1,4 +1,5 @@
-import { authMiddleware } from "next-firebase-auth-edge";
+import { NextRequest, NextResponse } from "next/server";
+import { authMiddleware, redirectToLogin } from "next-firebase-auth-edge";
 import { clientConfig, serverConfig } from "./config";
 
 export async function middleware(request) {
@@ -10,6 +11,32 @@ export async function middleware(request) {
 		cookieSignatureKeys: serverConfig.cookieSignatureKeys,
 		cookieSerializeOptions: serverConfig.cookieSerializeOptions,
 		serviceAccount: serverConfig.serviceAccount,
+		handleValidToken: async () => {
+			const { pathname } = request.nextUrl;
+			if (PUBLIC_PATHS.includes(pathname)) {
+				return NextResponse.redirect(new URL('/dashboard', request.url));
+			}
+			const response = NextResponse.next();
+			request.headers.forEach((value, key) => {
+				response.headers.set(key, value);
+			});
+			return response;
+		},
+		handleInvalidToken: async (reason) => {
+			console.info('Missing or malformed credentials', { reason });
+			return redirectToLogin(request, {
+				path: '/login',
+				publicPaths: PUBLIC_PATHS
+			});
+		},
+		handleError: async (error) => {
+			console.error('Unhandled authentication error', { error });
+
+			return redirectToLogin(request, {
+				path: '/login',
+				publicPaths: PUBLIC_PATHS
+			});
+		}
 	});
 }
 
