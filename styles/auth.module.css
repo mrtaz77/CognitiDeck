@@ -45,17 +45,6 @@
 	background-color: #e0e0e0;
 }
 
-.textField {
-	margin-bottom: 1.5rem;
-	background-color: #2c2c2c;
-	color: #e0e0e0;
-	border: 1px solid #444;
-}
-
-.textField::placeholder {
-	color: #fff;
-}
-
 .checkboxContainer {
 	display: flex;
 	justify-content: space-between;
