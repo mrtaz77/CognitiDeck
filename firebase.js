@@ -1,10 +1,10 @@
 import { initializeApp } from 'firebase/app';
-import { getAnalytics } from "firebase/analytics";
+import { getAnalytics, isSupported } from "firebase/analytics";
 import { getAuth, GoogleAuthProvider} from 'firebase/auth';
 import { clientConfig } from './config';
 
 const app = initializeApp(clientConfig);
-const analytics = getAnalytics(app);
+const analytics = isSupported().then(yes => yes ? getAnalytics(app) : null);
 const auth = getAuth(app);
 const googleAuth = new GoogleAuthProvider();
 
