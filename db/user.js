@@ -34,7 +34,7 @@ export async function addUser (userName) {
 
         const newUserRef = usersCollection.doc();
         await newUserRef.set({
-            userName,
+            userName: userName,
             userId: newUserId,
         });
 
