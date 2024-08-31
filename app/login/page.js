@@ -5,8 +5,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button, TextField, Typography, Container, Box } from '@mui/material';
 import styles from '@/styles/auth.module.css';
+import CustomTextField from '@/components/CustomTextField';
+import { auth, googleAuth } from '@/firebase';
+import { signInWithPopup } from 'firebase/auth';
 
-export default function Register() {
+export default function Login() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
@@ -43,73 +46,21 @@ export default function Register() {
 					Your Email
 				</Typography>
 
-				<TextField
+				<CustomTextField
 					label="Enter your email"
-					variant="outlined"
-					fullWidth
-					margin="normal"
 					type="email"
 					value={email}
 					onChange={(e) => setEmail(e.target.value)}
-					sx={{
-						marginBottom: '1.5rem',
-						backgroundColor: '#2c2c2c',
-						borderColor: '#444',
-						'& .MuiInputBase-input': {
-							color: '#ffffff',
-						},
-						'& .MuiInputLabel-root': {
-							color: '#e0e0e0',
-						},
-						'& .MuiOutlinedInput-notchedOutline': {
-							borderColor: '#444',
-						},
-						'&:hover .MuiOutlinedInput-notchedOutline': {
-							borderColor: '#00BF56',
-						},
-						'& .MuiInputLabel-root.Mui-focused': {
-							color: '#00BF56',
-						},
-						'& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-							borderColor: '#00BF56',
-						},
-					}}
 				/>
 				<Typography variant="body1" align="left">
 					Your Password
 				</Typography>
 
-				<TextField
+				<CustomTextField
 					label="Enter your password"
-					variant="outlined"
-					fullWidth
-					margin="normal"
 					type="password"
 					value={password}
 					onChange={(e) => setPassword(e.target.value)}
-					sx={{
-						marginBottom: '1.5rem',
-						backgroundColor: '#2c2c2c',
-						borderColor: '#444',
-						'& .MuiInputBase-input': {
-							color: '#ffffff',
-						},
-						'& .MuiInputLabel-root': {
-							color: '#e0e0e0',
-						},
-						'& .MuiOutlinedInput-notchedOutline': {
-							borderColor: '#444',
-						},
-						'&:hover .MuiOutlinedInput-notchedOutline': {
-							borderColor: '#00BF56',
-						},
-						'& .MuiInputLabel-root.Mui-focused': {
-							color: '#00BF56',
-						},
-						'& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-							borderColor: '#00BF56',
-						},
-					}}
 				/>
 
 				<Button
