@@ -6,6 +6,6 @@ import { clientConfig } from './config';
 const app = initializeApp(clientConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth(app);
-const googleAuth = GoogleAuthProvider();
+const googleAuth = new GoogleAuthProvider();
 
 export { app, analytics, auth, googleAuth };
