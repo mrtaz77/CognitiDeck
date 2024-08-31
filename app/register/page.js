@@ -4,10 +4,12 @@ import { React, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Button, TextField, Typography, Container, Box } from '@mui/material';
+import { Button, Typography, Container, Box } from '@mui/material';
 import styles from '@/styles/auth.module.css';
 import CustomTextField from '@/components/CustomTextField';
-import { auth, firestore } from '@/firebase'
+import CustomError from '@/components/CustomError';
+import { auth } from '@/firebase'
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 export default function Register() {
 	const [email, setEmail] = useState('');
@@ -17,9 +19,49 @@ export default function Register() {
 	const [errorMessage, setErrorMessage] = useState("");
 	const router = useRouter();
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		// Handle form submission
+		try {
+			const response = await fetch('/api/user/newUser', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ userName }),
+			});
+			if (response.ok) {
+				const res = await response.json();
+				console.log(`${res.message} with username: ${res.userName} and userId: ${res.userId}`);
+				await createUserWithEmailAndPassword(auth, email, password);
+				router.push('/login')
+			} else {
+				const err = await response.json();
+				setError(true);
+				setErrorMessage(err.error);
+			}
+		} catch (err) {
+			const errorMessage = err.message;
+			const errorCode = err.code;
+			setError(true);
+			switch (errorCode) {
+				case "auth/weak-password":
+					setErrorMessage("The password is too weak.");
+					break;
+				case "auth/email-already-in-use":
+					setErrorMessage(
+						"This email address is already in use by another account."
+					);
+				case "auth/invalid-email":
+					setErrorMessage("This email address is invalid.");
+					break;
+				case "auth/operation-not-allowed":
+					setErrorMessage("Email/password accounts are not enabled.");
+					break;
+				default:
+					setErrorMessage(errorMessage);
+					break;
+			}
+		}
 	};
 
 	return (
@@ -87,25 +129,17 @@ export default function Register() {
 					Sign Up
 				</Button>
 				{error && (
-					<Box className="error-box">
-						<Typography variant="body2" className="error-box-text">
-							{errorMessage}
-						</Typography>
-						<IconButton
-							size="small"
-							onClick={() => setError(false)}
-							className="error-box-close"
-						>
-							<CloseIcon />
-						</IconButton>
-					</Box>
+					<CustomError
+						errorMessage={errorMessage}
+						onClose={() => setError(false)}
+					/>
 				)}
 			</form>
 
 			<Typography variant="body2" align="center">
-				Don&#39;t you have an account?{' '}
-				<Link href="/register" className={styles.signUpLink}>
-					Sign Up
+				Already have an account?{' '}
+				<Link href="/login" className={styles.link}>
+					Sign In
 				</Link>
 			</Typography>
 		</Container>
