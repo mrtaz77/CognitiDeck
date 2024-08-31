@@ -22,6 +22,7 @@ export default function Register() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
+			await createUserWithEmailAndPassword(auth, email, password);
 			const response = await fetch('/api/user/newUser', {
 				method: 'POST',
 				headers: {
@@ -32,7 +33,6 @@ export default function Register() {
 			if (response.ok) {
 				const res = await response.json();
 				console.log(`${res.message} with username: ${res.userName} and userId: ${res.userId}`);
-				await createUserWithEmailAndPassword(auth, email, password);
 				router.push('/login')
 			} else {
 				const err = await response.json();

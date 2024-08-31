@@ -3,20 +3,70 @@
 import { React, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Button, TextField, Typography, Container, Box } from '@mui/material';
+import { useRouter } from 'next/navigation';
+import { Button, Typography, Container, Box } from '@mui/material';
 import styles from '@/styles/auth.module.css';
 import CustomTextField from '@/components/CustomTextField';
-import { auth, googleAuth } from '@/firebase';
-import { signInWithPopup } from 'firebase/auth';
+import { auth } from '@/firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import CustomError from '@/components/CustomError';
 
 export default function Login() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const [error, setError] = useState(false);
+	const [errorMessage, setErrorMessage] = useState("");
+	const router = useRouter();
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		// Handle form submission
-	};
+		try {
+			const userCredential = await signInWithEmailAndPassword(
+				auth,
+				email,
+				password
+			);
+			const idToken = await userCredential.user.getIdToken();
+			const response = await fetch("/api/login", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${idToken}`,
+				},
+			});
+			if (!response.ok) {
+				setError(true);
+				setErrorMessage('Failed to log in');
+			}else {
+				router.push('/');
+			}
+		} catch (err) {
+			const errorMessage = err.message;
+			const errorCode = err.code;
+
+			setError(true);
+
+			switch (errorCode) {
+				case "auth/invalid-email":
+					setErrorMessage("This email address is invalid.");
+					break;
+				case "auth/user-disabled":
+					setErrorMessage(
+						"This email address is disabled by the administrator."
+					);
+					break;
+				case "auth/user-not-found":
+					setErrorMessage("This email address is not registered.");
+					break;
+				case "auth/wrong-password":
+					setErrorMessage("The password is invalid or the user does not have a password.")
+					break;
+				default:
+					setErrorMessage(errorMessage);
+					break;
+			}
+		};
+	}
 
 	return (
 		<Container maxWidth="xs" className={styles.container}>
@@ -71,11 +121,17 @@ export default function Login() {
 				>
 					Sign in
 				</Button>
+				{error && (
+					<CustomError
+						errorMessage={errorMessage}
+						onClose={() => setError(false)}
+					/>
+				)}
 			</form>
 
 			<Typography variant="body2" align="center">
 				Don&#39;t you have an account?{' '}
-				<Link href="/register" className={styles.signUpLink}>
+				<Link href="/register" className={styles.link}>
 					Sign Up
 				</Link>
 			</Typography>

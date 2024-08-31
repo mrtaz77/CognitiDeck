@@ -67,12 +67,12 @@
 	color: #000;
 }
 
-.signUpLink {
+.link {
 	color: #00BFFF;
 	text-decoration: underline;
 }
 
-.signUpLink:hover {
+.link:hover {
 	color: #1ED760;
 	text-decoration: underline;
 }
