@@ -4,10 +4,10 @@ import { React, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Button, Typography, Container, Box } from '@mui/material';
-import styles from '@/styles/auth.module.css';
+import { Button, Typography, Container, Box, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import styles from './register.module.css';
 import CustomTextField from '@/components/CustomTextField';
-import CustomError from '@/components/CustomError';
 import { auth } from '@/firebase'
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 
@@ -19,47 +19,57 @@ export default function Register() {
 	const [errorMessage, setErrorMessage] = useState("");
 	const router = useRouter();
 
+	const blankError = (error) => {
+		setError(true);
+		setErrorMessage(`${error} is required`);
+	}
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		try {
-			await createUserWithEmailAndPassword(auth, email, password);
-			const response = await fetch('/api/user/newUser', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({ userName }),
-			});
-			if (response.ok) {
-				const res = await response.json();
-				console.log(`${res.message} with username: ${res.userName} and userId: ${res.userId}`);
-				router.push('/login')
-			} else {
-				const err = await response.json();
+		if (!userName.length) blankError("Username");
+		else if (!email.length) blankError("Email");
+		else if (!password.length) blankError("Password");
+		else {
+			try {
+				await createUserWithEmailAndPassword(auth, email, password);
+				const response = await fetch('/api/user/newUser', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({ userName }),
+				});
+				if (response.ok) {
+					const res = await response.json();
+					console.log(`${res.message} with username: ${res.userName} and userId: ${res.userId}`);
+					router.push('/login')
+				} else {
+					const err = await response.json();
+					setError(true);
+					setErrorMessage(err.error);
+				}
+			} catch (err) {
+				const errorMessage = err.message;
+				const errorCode = err.code;
 				setError(true);
-				setErrorMessage(err.error);
-			}
-		} catch (err) {
-			const errorMessage = err.message;
-			const errorCode = err.code;
-			setError(true);
-			switch (errorCode) {
-				case "auth/weak-password":
-					setErrorMessage("The password is too weak.");
-					break;
-				case "auth/email-already-in-use":
-					setErrorMessage(
-						"This email address is already in use by another account."
-					);
-				case "auth/invalid-email":
-					setErrorMessage("This email address is invalid.");
-					break;
-				case "auth/operation-not-allowed":
-					setErrorMessage("Email/password accounts are not enabled.");
-					break;
-				default:
-					setErrorMessage(errorMessage);
-					break;
+				switch (errorCode) {
+					case "auth/weak-password":
+						setErrorMessage("The password is too weak.");
+						break;
+					case "auth/email-already-in-use":
+						setErrorMessage(
+							"This email address is already in use by another account."
+						);
+					case "auth/invalid-email":
+						setErrorMessage("This email address is invalid.");
+						break;
+					case "auth/operation-not-allowed":
+						setErrorMessage("Email/password accounts are not enabled.");
+						break;
+					default:
+						setErrorMessage(errorMessage);
+						break;
+				}
 			}
 		}
 	};
@@ -129,13 +139,20 @@ export default function Register() {
 					Sign Up
 				</Button>
 				{error && (
-					<CustomError
-						errorMessage={errorMessage}
-						onClose={() => setError(false)}
-					/>
+					<Box className={styles.errorBox}>
+						<Typography variant="body2" sx={{ flex: 1 }}>
+							{errorMessage}
+						</Typography>
+						<IconButton
+							size="small"
+							onClick={() => setError(false)}
+							className={styles.errorButton}
+						>
+							<CloseIcon />
+						</IconButton>
+					</Box>
 				)}
 			</form>
-
 			<Typography variant="body2" align="center">
 				Already have an account?{' '}
 				<Link href="/login" className={styles.link}>
