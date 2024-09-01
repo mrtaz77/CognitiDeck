@@ -4,12 +4,12 @@ import { React, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Button, Typography, Container, Box } from '@mui/material';
-import styles from '@/styles/auth.module.css';
+import { Button, Typography, Container, Box, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import styles from './login.module.css';
 import CustomTextField from '@/components/CustomTextField';
 import { auth } from '@/firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import CustomError from '@/components/CustomError';
 
 export default function Login() {
 	const [email, setEmail] = useState('');
@@ -122,10 +122,18 @@ export default function Login() {
 					Sign in
 				</Button>
 				{error && (
-					<CustomError
-						errorMessage={errorMessage}
-						onClose={() => setError(false)}
-					/>
+					<Box className={styles.errorBox}>
+						<Typography variant="body2" sx={{ flex: 1 }}>
+							{errorMessage}
+						</Typography>
+						<IconButton
+							size="small"
+							onClick={() => setError(false)}
+							className={styles.errorButton}
+						>
+							<CloseIcon />
+						</IconButton>
+					</Box>
 				)}
 			</form>
 

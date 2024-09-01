@@ -80,3 +80,55 @@
 .googleIcon {
 	margin-right: 8px;
 }
+
+.errorBox {
+    display: flex;
+    align-items: center;
+    background-color: #F8D7DA; /* Light red background */
+    color: #D32F2F; /* Dark red text */
+    padding: 24px;
+    border-radius: 8px;
+    margin-top: 16px; /* 2 * 8px */
+    margin-bottom: 16px; /* 2 * 8px */
+    width: 100%;
+    max-width: 370px;
+    justify-content: space-between; /* Space between text and close button */
+    position: relative;
+    text-align: left;
+}
+
+.errorButton {
+    color: #D32F2F;
+    padding: 0;
+    margin-left: 10px;
+}
+
+.textField {
+    margin-bottom: 1.5rem;
+    background-color: #2c2c2c;
+    border-color: #444;
+}
+
+.inputBase {
+    color: #ffffff;
+}
+
+.inputLabel {
+    color: #e0e0e0;
+}
+
+.notchedOutline {
+    border-color: #444;
+}
+
+.notchedOutlineHover {
+    border-color: #00BF56;
+}
+
+.inputLabelFocused {
+    color: #00BF56;
+}
+
+.notchedOutlineFocused {
+    border-color: #00BF56;
+}
