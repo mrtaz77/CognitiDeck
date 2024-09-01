@@ -5,7 +5,6 @@ import { initAdmin } from '@/db/firebaseAdmin';
 export async function POST(req) {
 	try {
 		const { userName } = await req.json();
-		if (!userName) return NextResponse.json({ error: 'Username is required' }, { status: 400 });
 		await initAdmin();
 		const userNameExists = await checkIfUserNameExists(userName);
 		if (userNameExists) return NextResponse.json({ error: 'Username unavailable' }, { status: 400 });
