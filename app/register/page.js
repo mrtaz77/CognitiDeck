@@ -8,8 +8,8 @@ import { Button, Typography, Container, Box, IconButton, Stack } from '@mui/mate
 import CloseIcon from '@mui/icons-material/Close';
 import styles from './register.module.css';
 import CustomTextField from '@/components/CustomTextField';
-import { auth } from '@/firebase'
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth, googleAuth } from '@/firebase'
+import { createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 
 export default function Register() {
 	const [email, setEmail] = useState('');
@@ -24,6 +24,27 @@ export default function Register() {
 		setErrorMessage(`${error} is required`);
 	}
 
+	const newUserReq = async (userName, email) => {
+		const response = await fetch('/api/user/newUser', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ 
+				userName: userName,
+				email: email
+			}),
+		});
+		if (response.ok) {
+			const res = await response.json();
+			router.push('/login')
+		} else {
+			const err = await response.json();
+			setError(true);
+			setErrorMessage(err.error);
+		}
+	}
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		if (!userName.length) blankError("Username");
@@ -32,22 +53,7 @@ export default function Register() {
 		else {
 			try {
 				await createUserWithEmailAndPassword(auth, email, password);
-				const response = await fetch('/api/user/newUser', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify({ userName }),
-				});
-				if (response.ok) {
-					const res = await response.json();
-					console.log(`${res.message} with username: ${res.userName} and userId: ${res.userId}`);
-					router.push('/login')
-				} else {
-					const err = await response.json();
-					setError(true);
-					setErrorMessage(err.error);
-				}
+				await newUserReq(userName, email);
 			} catch (err) {
 				const errorMessage = err.message;
 				const errorCode = err.code;
@@ -60,6 +66,7 @@ export default function Register() {
 						setErrorMessage(
 							"This email address is already in use by another account."
 						);
+						break;
 					case "auth/invalid-email":
 						setErrorMessage("This email address is invalid.");
 						break;
@@ -71,6 +78,19 @@ export default function Register() {
 						break;
 				}
 			}
+		}
+	};
+
+	const handleGoogleSignIn = async () => {
+		try {
+			const result = await signInWithPopup(auth, googleAuth);
+			const user = result.user;
+			const userName = user.displayName;
+			const email = user.email;
+			await newUserReq(userName, email);
+			router.push('/login');
+		} catch (error) {
+			console.error('Error signing in with Google:', error);
 		}
 	};
 
@@ -102,9 +122,9 @@ export default function Register() {
 					Create your account
 				</Typography>
 
-				<Button variant="outlined" color="primary" className={styles.socialButton}>
+				<Button variant="contained" color="primary" className={styles.socialButton} onClick={handleGoogleSignIn}>
 					<Image
-						src="/google.svg" // Path to the Google SVG icon
+						src="/google.svg" 
 						alt="Google Icon"
 						width={24}
 						height={24}

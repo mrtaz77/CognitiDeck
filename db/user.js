@@ -17,7 +17,23 @@ export async function checkIfUserNameExists (userName) {
     }
 }
 
-export async function addUser (userName) {
+export async function checkIfEmailExists (email) {
+	try {
+		const firestore = getFirestore();
+        const userQuerySnapshot = await firestore
+            .collection('users')
+            .where('email', '==', email)
+            .get();
+
+        return !userQuerySnapshot.empty;
+    } catch (error) {
+        console.error('Error checking email:', error);
+        throw new Error('Error checking email');
+    }
+}
+
+
+export async function addUser (userName, email) {
 	try {
 		const firestore = getFirestore();
         const usersCollection = firestore.collection('users');
@@ -36,9 +52,10 @@ export async function addUser (userName) {
         await newUserRef.set({
             userName: userName,
             userId: newUserId,
+			email: email
         });
 
-        return { userName: userName, userId: newUserId };
+        return { userName: userName, userId: newUserId, email: email };
     } catch (error) {
         console.error('Error adding new user:', error);
         throw new Error('Error creating new user');
