@@ -8,8 +8,8 @@ import { Button, Typography, Container, Box, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import styles from './login.module.css';
 import CustomTextField from '@/components/CustomTextField';
-import { auth } from '@/firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth, googleAuth } from '@/firebase';
+import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 
 export default function Login() {
 	const [email, setEmail] = useState('');
@@ -68,13 +68,36 @@ export default function Login() {
 		};
 	}
 
+	const handleGoogleSignIn = async () => {
+		try {
+			const credential = await signInWithPopup(auth, googleAuth);
+			const idToken = await credential.user.getIdToken();
+			const response = await fetch("/api/login", {
+				method: "POST", // Make sure the method matches your backend handler
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${idToken}`, // Include the token in the Authorization header
+				},
+			});
+			if (!response.ok) {
+				setError(true);
+				setErrorMessage('Failed to log in');
+			}
+			else router.push('/');
+		} catch (err) {
+			const errorMessage = err.message;
+			setError(true);
+			setErrorMessage(errorMessage);
+		}
+	};
+
 	return (
 		<Container maxWidth="xs" className={styles.container}>
 			<Typography variant="h3" align="center" sx={{ marginBottom: 4 }}>
 				Sign in to your account
 			</Typography>
 
-			<Button variant="outlined" color="primary" className={styles.socialButton}>
+			<Button variant="outlined" color="primary" className={styles.socialButton} onClick={handleGoogleSignIn}>
 				<Image
 					src="/google.svg" // Path to the Google SVG icon
 					alt="Google Icon"
