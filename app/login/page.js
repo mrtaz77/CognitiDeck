@@ -70,7 +70,7 @@ export default function Login() {
 
 	return (
 		<Container maxWidth="xs" className={styles.container}>
-			<Typography variant="h3" align="center" gutterBottom>
+			<Typography variant="h3" align="center" sx={{ marginBottom: 4 }}>
 				Sign in to your account
 			</Typography>
 
