@@ -4,7 +4,7 @@ import { React, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Button, Typography, Container, Box, IconButton } from '@mui/material';
+import { Button, Typography, Container, Box, IconButton, Stack } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import styles from './register.module.css';
 import CustomTextField from '@/components/CustomTextField';
@@ -75,90 +75,113 @@ export default function Register() {
 	};
 
 	return (
-		<Container maxWidth="xs" className={styles.container}>
-			<Typography variant="h3" align="center" gutterBottom>
-				Create your account
-			</Typography>
-
-			<Button variant="outlined" color="primary" className={styles.socialButton}>
-				<Image
-					src="/google.svg" // Path to the Google SVG icon
-					alt="Google Icon"
-					width={24}
-					height={24}
-					className={styles.googleIcon}
-				/>
-				Sign up with Google
-			</Button>
-
-			<Box className={styles.divider}>
-				<Typography variant="body1" align="center">
-					Or, sign up with your email
-				</Typography>
+		<Box className={styles.mainContainer}>
+			<Box className={styles.imageContainer}>
+				<Stack
+					className={styles.stackContainer}
+					direction="column"
+					alignItems="center"
+					justifyContent="center"
+					spacing={2}
+				>
+					<Image
+						src="/CognitiDeck-removebg.png" // Path to your logo
+						alt="Logo"
+						width={400}
+						height={400}
+						className={styles.logoImage}
+					/>
+					<Typography variant="h1" className={styles.heading}>
+						Cogniti Deck
+					</Typography>
+				</Stack>
 			</Box>
 
-			<form onSubmit={handleSubmit}>
-				<Typography variant="body1" align="left">
-					Username
+			<Container maxWidth="xs" className={styles.container} sx={{ flex: 1 }}>
+				<Typography variant="h3" align="center" gutterBottom>
+					Create your account
 				</Typography>
 
-				<CustomTextField
-					label="Enter your username"
-					type="text"
-					value={userName}
-					onChange={(e) => setUserName(e.target.value)}
-				/>
-
-				<Typography variant="body1" align="left">
-					Your Email
-				</Typography>
-
-				<CustomTextField
-					label="Enter your email"
-					type="email"
-					value={email}
-					onChange={(e) => setEmail(e.target.value)}
-				/>
-				<Typography variant="body1" align="left">
-					Your Password
-				</Typography>
-
-				<CustomTextField
-					label="Enter your password"
-					type="password"
-					value={password}
-					onChange={(e) => setPassword(e.target.value)}
-				/>
-
-				<Button
-					type="submit"
-					variant="contained"
-					color="primary"
-					className={styles.submitButton}
-				>
-					Sign Up
+				<Button variant="outlined" color="primary" className={styles.socialButton}>
+					<Image
+						src="/google.svg" // Path to the Google SVG icon
+						alt="Google Icon"
+						width={24}
+						height={24}
+						className={styles.googleIcon}
+					/>
+					Sign up with Google
 				</Button>
-				{error && (
-					<Box className={styles.errorBox}>
-						<Typography variant="body2" sx={{ flex: 1 }}>
-							{errorMessage}
-						</Typography>
-						<IconButton
-							size="small"
-							onClick={() => setError(false)}
-							className={styles.errorButton}
-						>
-							<CloseIcon />
-						</IconButton>
-					</Box>
-				)}
-			</form>
-			<Typography variant="body2" align="center">
-				Already have an account?{' '}
-				<Link href="/login" className={styles.link}>
-					Sign In
-				</Link>
-			</Typography>
-		</Container>
+
+				<Box className={styles.divider}>
+					<Typography variant="body1" align="center">
+						Or, sign up with your email
+					</Typography>
+				</Box>
+
+				<form onSubmit={handleSubmit}>
+					<Typography variant="body1" align="left">
+						Username
+					</Typography>
+
+					<CustomTextField
+						label="Enter your username"
+						type="text"
+						value={userName}
+						onChange={(e) => setUserName(e.target.value)}
+					/>
+
+					<Typography variant="body1" align="left">
+						Your Email
+					</Typography>
+
+					<CustomTextField
+						label="Enter your email"
+						type="email"
+						value={email}
+						onChange={(e) => setEmail(e.target.value)}
+					/>
+					<Typography variant="body1" align="left">
+						Your Password
+					</Typography>
+
+					<CustomTextField
+						label="Enter your password"
+						type="password"
+						value={password}
+						onChange={(e) => setPassword(e.target.value)}
+					/>
+
+					<Button
+						type="submit"
+						variant="contained"
+						color="primary"
+						className={styles.submitButton}
+					>
+						Sign Up
+					</Button>
+					{error && (
+						<Box className={styles.errorBox}>
+							<Typography variant="body2" sx={{ flex: 1 }}>
+								{errorMessage}
+							</Typography>
+							<IconButton
+								size="small"
+								onClick={() => setError(false)}
+								className={styles.errorButton}
+							>
+								<CloseIcon />
+							</IconButton>
+						</Box>
+					)}
+				</form>
+				<Typography variant="body2" align="center">
+					Already have an account?{' '}
+					<Link href="/login" className={styles.link}>
+						Sign In
+					</Link>
+				</Typography>
+			</Container>
+		</Box>
 	);
 }

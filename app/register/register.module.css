@@ -1,11 +1,32 @@
+.mainContainer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+}
+
+.imageContainer {
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: transparent;
+	max-width: 50%;
+}
+
 .container {
-	background-color: #1e1e1e;
+	background-color: #424746;
 	border-radius: 8px;
 	padding: 2.5rem;
 	box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.35);
 	max-width: 500px;
 	margin: auto;
 	color: #e0e0e0;
+}
+
+.gridContainer {
+	display: flex;
+	height: 100vh;
 }
 
 .socialButton {
@@ -45,13 +66,6 @@
 	background-color: #e0e0e0;
 }
 
-.checkboxContainer {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin-bottom: 1.5rem;
-}
-
 .submitButton {
 	width: 100%;
 	padding: 0.75rem;
@@ -82,53 +96,76 @@
 }
 
 .errorBox {
-    display: flex;
-    align-items: center;
-    background-color: #F8D7DA; /* Light red background */
-    color: #D32F2F; /* Dark red text */
-    padding: 24px;
-    border-radius: 8px;
-    margin-top: 16px; /* 2 * 8px */
-    margin-bottom: 16px; /* 2 * 8px */
-    width: 100%;
-    max-width: 370px;
-    justify-content: space-between; /* Space between text and close button */
-    position: relative;
-    text-align: left;
+	display: flex;
+	align-items: center;
+	background-color: #F8D7DA;
+	color: #D32F2F;
+	padding: 24px;
+	border-radius: 8px;
+	margin-top: 16px;
+	margin-bottom: 16px;
+	width: 100%;
+	max-width: 370px;
+	justify-content: space-between;
+	position: relative;
+	text-align: left;
 }
 
 .errorButton {
-    color: #D32F2F;
-    padding: 0;
-    margin-left: 10px;
+	color: #D32F2F;
+	padding: 0;
+	margin-left: 10px;
 }
 
 .textField {
-    margin-bottom: 1.5rem;
-    background-color: #2c2c2c;
-    border-color: #444;
+	margin-bottom: 1.5rem;
+	background-color: #2c2c2c;
+	border-color: #444;
 }
 
 .inputBase {
-    color: #ffffff;
+	color: #ffffff;
 }
 
 .inputLabel {
-    color: #e0e0e0;
+	color: #e0e0e0;
 }
 
 .notchedOutline {
-    border-color: #444;
+	border-color: #444;
 }
 
 .notchedOutlineHover {
-    border-color: #00BF56;
+	border-color: #00BF56;
 }
 
 .inputLabelFocused {
-    color: #00BF56;
+	color: #00BF56;
 }
 
 .notchedOutlineFocused {
-    border-color: #00BF56;
+	border-color: #00BF56;
+}
+
+.logoImage {
+	max-width: 100%;
+	height: auto;
+	margin-bottom: 1rem;
+}
+
+.heading {
+	margin-bottom: 1.25rem;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 600;
+	color: #8fff05;
+	font-size: 70px;
+	line-height: normal;
+}
+
+.stackContainer {
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
 }
