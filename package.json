@@ -9,6 +9,7 @@
 		"lint": "next lint"
 	},
 	"dependencies": {
+		"@clerk/nextjs": "^5.3.7",
 		"@emotion/react": "^11.13.3",
 		"@emotion/styled": "^11.13.0",
 		"@mui/icons-material": "^6.0.1",
@@ -19,7 +20,8 @@
 		"next-firebase-auth-edge": "^1.7.0-canary.2",
 		"react": "^18",
 		"react-dom": "^18",
-		"server-only": "^0.0.1"
+		"server-only": "^0.0.1",
+		"stripe": "^16.9.0"
 	},
 	"devDependencies": {
 		"eslint": "^8",
