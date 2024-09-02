@@ -5,7 +5,7 @@ import { AppBar, Toolbar, Typography, Button, Container } from "@mui/material";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 
-export default function HomePage({ email }) {
+export default function HomePage({ email, userName }) {
 	const router = useRouter();
 
 	const handleLogout = async () => {
@@ -27,7 +27,7 @@ export default function HomePage({ email }) {
 					</Typography>
 					<Button
 						className="button-navItem"
-						onClick={() => router.push(`/dashboard/pricing`)}
+						onClick={() => router.push(`/pricing`)}
 					>
 						Pricing
 					</Button>
@@ -45,7 +45,7 @@ export default function HomePage({ email }) {
 					Super secure home page
 				</Typography>
 				<Typography variant="body1" className="text-homepage">
-					Only <strong>{email}</strong> holds the magic key to this kingdom!
+					Only <strong>{userName}</strong> holds the magic key to this kingdom!
 				</Typography>
 			</Container>
 		</>

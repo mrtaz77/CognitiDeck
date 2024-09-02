@@ -37,7 +37,7 @@ body {
 	background-color: #1ED760;
 	color: white;
 	padding: 10px 20px;
-	font-size: 14px;
+	font-size: 18px;
 	border-radius: 8px;
 	font-weight: 500;
 	cursor: pointer;
@@ -45,6 +45,7 @@ body {
 	border: none;
 	outline: none;
 	transition: background-color 0.3s ease;
+	text-transform: none;
 }
 
 .button-logout:hover {
@@ -60,7 +61,7 @@ body {
 	background-color: #1ED760;
 	color: white;
 	padding: 10px 20px;
-	font-size: 14px;
+	font-size: 18px;
 	border-radius: 8px;
 	font-weight: 500;
 	cursor: pointer;
@@ -68,6 +69,7 @@ body {
 	border: none;
 	outline: none;
 	transition: background-color 0.3s ease;
+	text-transform: none;
 }
 
 .button-navItem:hover {
