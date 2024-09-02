@@ -34,7 +34,7 @@ body {
 }
 
 .button-logout {
-	background-color: #6b7280;
+	background-color: #1ED760;
 	color: white;
 	padding: 10px 20px;
 	font-size: 14px;
@@ -54,4 +54,40 @@ body {
 .button-logout:focus {
 	outline: 4px solid #a7f3d0;
 	background-color: #ef4444;
+}
+
+.button-navItem {
+	background-color: #1ED760;
+	color: white;
+	padding: 10px 20px;
+	font-size: 14px;
+	border-radius: 8px;
+	font-weight: 500;
+	cursor: pointer;
+	text-align: center;
+	border: none;
+	outline: none;
+	transition: background-color 0.3s ease;
+}
+
+.button-navItem:hover {
+	background-color: #4842ff;
+}
+
+.button-navItem:focus {
+	outline: 4px solid #a7f3d0;
+	background-color: #4842ff;
+}
+
+.navbar {
+    background-color: #1ED760;
+}
+
+.title {
+    flex-grow: 1;
+	font-size: 40;
+}
+
+.heading-homepage {
+    margin-bottom: 20px;
 }
