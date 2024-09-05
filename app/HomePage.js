@@ -21,7 +21,7 @@ import Grid from '@mui/material/Grid2';
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 
-export default function HomePage({ email, userName }) {
+export default function HomePage({ userName }) {
 	const router = useRouter();
 
 	const handleLogout = async () => {
