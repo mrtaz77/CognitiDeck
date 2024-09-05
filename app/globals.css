@@ -12,6 +12,12 @@
 	}
 }
 
+@media (min-width: 768px) {
+	.flex-layout {
+		flex-direction: row;
+	}
+}
+
 body {
 	color: rgb(var(--foreground-rgb));
 	background: linear-gradient(to bottom,
@@ -35,7 +41,7 @@ body {
 
 .button-logout {
 	background-color: #1ED760;
-	color: white;
+	color: black;
 	padding: 10px 20px;
 	font-size: 18px;
 	border-radius: 8px;
@@ -50,6 +56,7 @@ body {
 
 .button-logout:hover {
 	background-color: #ef4444;
+	color: white;
 }
 
 .button-logout:focus {
@@ -59,7 +66,7 @@ body {
 
 .button-navItem {
 	background-color: #1ED760;
-	color: white;
+	color: black;
 	padding: 10px 20px;
 	font-size: 18px;
 	border-radius: 8px;
@@ -74,6 +81,7 @@ body {
 
 .button-navItem:hover {
 	background-color: #4842ff;
+	color: white;
 }
 
 .button-navItem:focus {
@@ -82,14 +90,74 @@ body {
 }
 
 .navbar {
-    background-color: #1ED760;
+	background-color: #1ED760;
 }
 
 .title {
-    flex-grow: 1;
+	color: #192757;
+	flex-grow: 1;
 	font-size: 40;
 }
 
 .heading-homepage {
-    margin-bottom: 20px;
+	margin-bottom: 20px;
+}
+
+.flex-layout {
+	display: flex;
+	gap: 16px;
+	flex-direction: column;
+}
+
+.section {
+	flex: 1;
+}
+
+.profile-card {
+	background-color: transparent;
+	width: 450px;
+	height: 400px;
+	border: 2px solid white;
+	padding: 16px;
+	color: white;
+}
+
+.profile-title {
+	font-weight: bold;
+	text-decoration: underline;
+	margin-bottom: 28px;
+	color: white;
+}
+
+.profile-username {
+	font-weight: bold;
+	margin-bottom: 80px;
+	color: white;
+}
+
+.flashcard-container {
+	background-color: transparent;
+	width: 900px;
+	border: 2px solid white;
+	color: white;
+}
+
+.table-container {
+	padding: 16px;
+}
+
+.table-head-cell {
+	text-align: left;
+	padding: 16px;
+	border-bottom: 2px solid white;
+	color: white;
+}
+
+.tableBodyCell {
+	font-size: 22px;
+	font-weight: 50;
+}
+
+.full-width-grid {
+	width: 100%;
 }
